@@ -56,7 +56,7 @@ export default function Home() {
             
             {greetingCount > 0 && (
               <p className="text-sm text-muted-foreground mt-4">
-                You&apos;ve greeted {greetingCount} time{greetingCount !== 1 ? &apos;s&apos; : &apos;&apos;}!
+                You&apos;ve greeted {greetingCount} time{greetingCount !== 1 ? 's' : ''}!
               </p>
             )}
           </div>
