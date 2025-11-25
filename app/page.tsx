@@ -56,7 +56,7 @@ export default function Home() {
             
             {greetingCount > 0 && (
               <p className="text-sm text-muted-foreground mt-4">
-                You've greeted {greetingCount} time{greetingCount !== 1 ? 's' : ''}!
+                You&apos;ve greeted {greetingCount} time{greetingCount !== 1 ? &apos;s&apos; : &apos;&apos;}!
               </p>
             )}
           </div>
@@ -67,7 +67,7 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-center">Random Quote Generator</h2>
             <div className="bg-muted/50 rounded-lg p-6 min-h-[120px] flex items-center justify-center">
               <p className="text-lg text-center italic text-foreground/90">
-                "{randomQuote}"
+                {`"${randomQuote}"`}
               </p>
             </div>
             <div className="flex justify-center">
