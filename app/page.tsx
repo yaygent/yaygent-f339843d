@@ -1,6 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useState } from "react"
 
 const randomQuotes = [
@@ -19,6 +21,9 @@ const randomQuotes = [
 export default function Home() {
   const [greetingCount, setGreetingCount] = useState(0)
   const [randomQuote, setRandomQuote] = useState(randomQuotes[0])
+  const [formData, setFormData] = useState({ name: "", email: "" })
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleGreet = () => {
     setGreetingCount((prev) => prev + 1)
@@ -27,6 +32,29 @@ export default function Home() {
   const handleRandomQuote = () => {
     const randomIndex = Math.floor(Math.random() * randomQuotes.length)
     setRandomQuote(randomQuotes[randomIndex])
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormSubmitted(false)
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    
+    setFormSubmitted(true)
+    setIsSubmitting(false)
+    setFormData({ name: "", email: "" })
+  }
+
+  const handleResetForm = () => {
+    setFormData({ name: "", email: "" })
+    setFormSubmitted(false)
   }
 
   return (
@@ -75,6 +103,60 @@ export default function Home() {
                 Get Random Quote
               </Button>
             </div>
+          </div>
+        </div>
+
+        <div className="border rounded-lg p-8 space-y-6 bg-card shadow-lg mt-8">
+          <div className="space-y-4">
+            <h2 className="text-2xl font-semibold text-center">Contact Form</h2>
+            
+            {formSubmitted ? (
+              <div className="bg-muted/50 rounded-lg p-6 min-h-[120px] flex flex-col items-center justify-center space-y-4">
+                <p className="text-lg text-center text-foreground/90">
+                  Thank you for your submission!
+                </p>
+                <p className="text-sm text-muted-foreground text-center">
+                  Your form has been submitted successfully.
+                </p>
+                <Button onClick={handleResetForm} variant="secondary">
+                  Submit Another
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                
+                <div className="flex justify-center pt-2">
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
